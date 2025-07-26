@@ -226,6 +226,7 @@ void addTaskLinkedList(int dayIndex, const string& position, int customPosition 
     else if (position == "end") {
         TaskLinkedList* temp = head;
         int stepCount = 1;
+        steps = 1; // Counting the insertion step
         while (temp->next) {
             cout << "\nStep " << stepCount++ << " (traverse): Current node = " << temp->description << "\n";
             temp = temp->next;
@@ -233,7 +234,6 @@ void addTaskLinkedList(int dayIndex, const string& position, int customPosition 
             displayDayTasksLinkedList(dayIndex);
         }
         temp->next = newTask;
-        steps++;
         cout << "\nStep " << stepCount++ << " (insert at end):\n";
         displayDayTasksLinkedList(dayIndex);
     }
@@ -254,18 +254,29 @@ void addTaskLinkedList(int dayIndex, const string& position, int customPosition 
             displayDayTasksLinkedList(dayIndex);
         }
         else {
-            temp = head;
+            steps = 1; // Counting the insertion step
             int stepCount = 1;
-            for (int index = 1; index < customPosition - 1 && temp->next; index++, steps++, stepCount++) {
-                cout << "\nStep " << stepCount << " (traverse): Current node = " << temp->description << "\n";
-                temp = temp->next;
+
+            if (customPosition == 1) {
+                newTask->next = head;
+                head = newTask;
+                cout << "\nStep " << stepCount << " (Insertion at position 1):\n";
                 displayDayTasksLinkedList(dayIndex);
             }
-            newTask->next = temp->next;
-            temp->next = newTask;
-            steps++;
-            cout << "\nStep " << stepCount + 1 << " (insert at position " << customPosition << "):\n";
-            displayDayTasksLinkedList(dayIndex);
+            else {
+                temp = head;
+                // Traverse to the node before the insertion point
+                for (int i = 1; i < customPosition - 1 && temp->next; i++) {
+                    cout << "\nStep " << stepCount++ << " (traverse): Current node = " << temp->description << "\n";
+                    temp = temp->next;
+                    steps++;
+                    displayDayTasksLinkedList(dayIndex);
+                }
+                newTask->next = temp->next;
+                temp->next = newTask;
+                cout << "\nStep " << stepCount++ << " (insert at position " << customPosition << "):\n";
+                displayDayTasksLinkedList(dayIndex);
+            }
         }
     }
 
