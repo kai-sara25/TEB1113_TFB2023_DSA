@@ -227,13 +227,16 @@ void addTaskLinkedList(int dayIndex, const string& position, int customPosition 
         TaskLinkedList* temp = head;
         int stepCount = 1;
         steps = 1; // Counting the insertion step
-        while (temp->next) {
+        while (temp) {
             cout << "\nStep " << stepCount++ << " (traverse): Current node = " << temp->description << "\n";
+                displayDayTasksLinkedList(dayIndex);
+                
+            if (!temp->next) break;
             temp = temp->next;
             steps++;
-            displayDayTasksLinkedList(dayIndex);
         }
         temp->next = newTask;
+        steps++;
         cout << "\nStep " << stepCount++ << " (insert at end):\n";
         displayDayTasksLinkedList(dayIndex);
     }
@@ -266,14 +269,18 @@ void addTaskLinkedList(int dayIndex, const string& position, int customPosition 
             else {
                 temp = head;
                 // Traverse to the node before the insertion point
-                for (int i = 1; i < customPosition - 1 && temp->next; i++) {
+                for (int i = 1; i < customPosition - 1; i++) {
                     cout << "\nStep " << stepCount++ << " (traverse): Current node = " << temp->description << "\n";
+                    displayDayTasksLinkedList(dayIndex);
                     temp = temp->next;
                     steps++;
-                    displayDayTasksLinkedList(dayIndex);
                 }
+                cout << "\nStep " << stepCount++ << " (traverse): Current node = " << temp->description << "\n";
+                displayDayTasksLinkedList(dayIndex);
+                
                 newTask->next = temp->next;
                 temp->next = newTask;
+                steps++;
                 cout << "\nStep " << stepCount++ << " (insert at position " << customPosition << "):\n";
                 displayDayTasksLinkedList(dayIndex);
             }
